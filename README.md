@@ -10,7 +10,7 @@ Evolve your Dart and Flutter development with fluent scope functions, conditiona
 
 #### Without `lumu_evolve` (Verbose & Nested)
 ```dart
-Widget buildHeader(User? user, bool isCompact) {
+Widget header(User? user, bool isCompact) {
   // Nested ternary checks
   final name = user != null ? user.name : "Guest";
   
@@ -26,7 +26,7 @@ Widget buildHeader(User? user, bool isCompact) {
 
 #### With `lumu_evolve` (Fluent & Linear)
 ```dart
-Widget buildHeader(User? user, bool isCompact) {
+Widget header(User? user, bool isCompact) {
   // Safe extraction with .or
   final name = user?.name.or("Guest");
   
@@ -43,7 +43,113 @@ Widget buildHeader(User? user, bool isCompact) {
 
 ---
 
-### 2. Screen-Aware Responsive Spacing
+### 2. Scoped Styling & Configuration (using `.let`, `.or`, and `.when`)
+Handling a user profile card color scheme and avatar image dynamically depending on the user's login and membership state.
+
+#### Without `lumu_evolve` (Verbose & Variable-Heavy)
+```dart
+Widget userProfileCard(User? user, BuildContext context) {
+  final name = user != null ? user.name : 'Anonymous';
+  final avatar = user != null && user.avatarUrl != null 
+    ? user.avatarUrl! 
+    : 'assets/default.png';
+  
+  Color cardColor;
+  if (user != null) {
+    cardColor = user.membership == Membership.vip 
+      ? Theme.of(context).colorScheme.primaryContainer 
+      : Theme.of(context).colorScheme.surfaceVariant;
+  } else {
+    cardColor = Theme.of(context).colorScheme.surface;
+  }
+
+  return Card(
+    color: cardColor,
+    child: ListTile(
+      leading: Image.asset(avatar),
+      title: Text(name),
+    ),
+  );
+}
+```
+
+#### With `lumu_evolve` (Declarative & Expression-Driven)
+```dart
+Widget userProfileCard(User? user, BuildContext context) {
+  final name = user?.name.or('Anonymous');
+  final avatar = user?.avatarUrl.or('assets/default.png');
+  final theme = Theme.of(context).colorScheme;
+
+  return Card(
+    color: user?.let((u) => (u.membership == Membership.vip).when(
+      then: theme.primaryContainer,
+      pass: theme.surfaceVariant,
+    )) ?? theme.surface,
+    child: ListTile(
+      leading: Image.asset(avatar!),
+      title: Text(name!),
+    ),
+  );
+}
+```
+
+---
+
+### 3. Declarative Loading & Responsive Branching (using `.pick` and `.when`)
+Rendering a dashboard screen that handles async loading states and adapts layouts based on device orientation.
+
+#### Without `lumu_evolve` (Nested Layout Trees)
+```dart
+Widget dashboard(bool isLoading, bool isLandscape, Widget data) {
+  return Scaffold(
+    body: isLoading
+      ? const Center(child: CircularProgressIndicator())
+      : Row(
+          children: [
+            if (isLandscape) const NavigationDrawer(),
+            Expanded(
+              child: Align(
+                alignment: isLandscape ? Alignment.topLeft : Alignment.center,
+                child: Padding(
+                  padding: EdgeInsets.all(isLandscape ? 24.0 : 16.0),
+                  child: data,
+                ),
+              ),
+            ),
+          ],
+        ),
+  );
+}
+```
+
+#### With `lumu_evolve` (Structured & Expression-Based)
+```dart
+Widget dashboard(bool isLoading, bool isLandscape, Widget data) {
+  return Scaffold(
+    body: isLoading.pick(
+      match: () => const Center(child: CircularProgressIndicator()),
+      otherwise: () => Row(
+        children: [
+          if (isLandscape) const NavigationDrawer(),
+          Expanded(
+            child: Align(
+              alignment: isLandscape.when(then: Alignment.topLeft, pass: Alignment.center),
+              child: Padding(
+                padding: EdgeInsets.all(isLandscape.when(then: 24.0, pass: 16.0)),
+                child: data,
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+```
+
+---
+
+### 4. Screen-Aware Responsive Spacing
 
 #### Without `lumu_evolve` (Boilerplate & Rebuild-Heavy)
 ```dart
@@ -52,17 +158,17 @@ Widget build(BuildContext context) {
   final width = MediaQuery.of(context).size.width;
   
   // Manual viewport logic per padding parameter
-  final double paddingVal;
+  final double padding;
   if (width >= 840.0) {
-    paddingVal = 32.0;
+    padding = 32.0;
   } else if (width >= 600.0) {
-    paddingVal = 24.0;
+    padding = 24.0;
   } else {
-    paddingVal = 16.0;
+    padding = 16.0;
   }
 
   return Padding(
-    padding: EdgeInsets.all(paddingVal),
+    padding: EdgeInsets.all(padding),
     child: const Text('Responsive Card'),
   );
 }
