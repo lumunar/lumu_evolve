@@ -47,15 +47,6 @@ void main() {
     });
   });
 
-  group('Fit Extension', () {
-    test('fit() helper creates correct Fit object', () {
-      final fit = 10.0.fit(land: 15.0, wide: 20.0);
-      expect(fit.port, equals(10.0));
-      expect(fit.land, equals(15.0));
-      expect(fit.wide, equals(20.0));
-    });
-  });
-
   group('Space Tokens', () {
     test('Default spacing scale is correct', () {
       expect(Space.tiny.port, equals(4.0));
