@@ -61,15 +61,27 @@ class Fit<T> {
     return isWide.pick(
       match: () {
         final portValue = val / Breakpoints.wide.scale();
-        return Fit(cast(portValue), land: cast(portValue * Breakpoints.land.scale()), wide: value);
+        return Fit(
+          cast(portValue),
+          land: cast(portValue * Breakpoints.land.scale()),
+          wide: value,
+        );
       },
       otherwise: () => isLand.pick(
         match: () {
           final portValue = val / Breakpoints.land.scale();
-          return Fit(cast(portValue), land: value, wide: cast(portValue * Breakpoints.wide.scale()));
+          return Fit(
+            cast(portValue),
+            land: value,
+            wide: cast(portValue * Breakpoints.wide.scale()),
+          );
         },
         otherwise: () {
-          return Fit(value, land: cast(val * Breakpoints.land.scale()), wide: cast(val * Breakpoints.wide.scale()));
+          return Fit(
+            value,
+            land: cast(val * Breakpoints.land.scale()),
+            wide: cast(val * Breakpoints.wide.scale()),
+          );
         },
       ),
     );
@@ -78,7 +90,9 @@ class Fit<T> {
   /// Helper to get logical width of primary window context-free.
   static double _getScreenWidth() {
     try {
-      final view = ui.PlatformDispatcher.instance.implicitView ?? ui.PlatformDispatcher.instance.views.firstOrNull;
+      final view =
+          ui.PlatformDispatcher.instance.implicitView ??
+          ui.PlatformDispatcher.instance.views.firstOrNull;
       if (view == null) return 0.0;
       return view.physicalSize.width / view.devicePixelRatio;
     } catch (_) {
@@ -88,7 +102,8 @@ class Fit<T> {
 
   /// Resolves the value based on screen width, optionally using [BuildContext].
   T resolve([BuildContext? context]) {
-    final double width = context?.let((c) => MediaQuery.sizeOf(c).width) ?? _getScreenWidth();
+    final double width =
+        context?.let((c) => MediaQuery.sizeOf(c).width) ?? _getScreenWidth();
 
     final isWide = width >= Breakpoints.wide.value;
     final isLand = width >= Breakpoints.land.value;

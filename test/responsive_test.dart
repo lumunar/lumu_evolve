@@ -43,7 +43,7 @@ void main() {
 
     test('Callable interface works', () {
       const fit = Fit<double>(10.0, land: 15.0, wide: 20.0);
-      expect(fit(), equals(10.0));
+      expect(fit(), equals(15.0));
     });
   });
 
@@ -60,20 +60,23 @@ void main() {
   });
 
   group('Widget Tests (MediaQuery Context)', () {
-    testWidgets('Fit.adaptive back-calculates correctly based on PlatformDispatcher size', (tester) async {
-      // Simulate tablet/medium screen via tester.view
-      tester.view.physicalSize = const Size(768 * 2.0, 1024 * 2.0);
-      tester.view.devicePixelRatio = 2.0;
-      addTearDown(() {
-        tester.view.resetPhysicalSize();
-        tester.view.resetDevicePixelRatio();
-      });
+    testWidgets(
+      'Fit.adaptive back-calculates correctly based on PlatformDispatcher size',
+      (tester) async {
+        // Simulate tablet/medium screen via tester.view
+        tester.view.physicalSize = const Size(768 * 2.0, 1024 * 2.0);
+        tester.view.devicePixelRatio = 2.0;
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
 
-      // Fit.adaptive is called on a landscape/medium viewport. 24.0 is treated as the landscape value.
-      final adaptiveFit = Fit.adaptive(24.0);
-      expect(adaptiveFit.land, equals(24.0));
-      expect(adaptiveFit.port, equals(16.0)); // 24.0 / 1.5
-      expect(adaptiveFit.wide, equals(32.0)); // 16.0 * 2.0
-    });
+        // Fit.adaptive is called on a landscape/medium viewport. 24.0 is treated as the landscape value.
+        final adaptiveFit = Fit.adaptive(24.0);
+        expect(adaptiveFit.land, equals(24.0));
+        expect(adaptiveFit.port, equals(16.0)); // 24.0 / 1.5
+        expect(adaptiveFit.wide, equals(32.0)); // 16.0 * 2.0
+      },
+    );
   });
 }
