@@ -1,12 +1,12 @@
 /// A mutable scale property supporting both calling to set/get and direct assignment.
-class BreakpointScale {
+class Scale {
   /// The scale factor value.
   double value;
 
-  BreakpointScale(this.value);
+  Scale(this.value);
 
   /// Sets (if parameter provided) and returns the scale factor.
-  /// Example: `Breakpoints.desktop.scale(1.8)`
+  /// Example: `Breakpoints.wide.scale(1.8)`
   double call([double? newValue]) {
     if (newValue != null) {
       value = newValue;
@@ -24,16 +24,16 @@ class Breakpoint {
   double value;
 
   /// The scaling factor associated with this breakpoint.
-  final BreakpointScale scale;
+  final Scale scale;
 
-  Breakpoint(this.value, double scaleValue) : scale = BreakpointScale(scaleValue);
+  Breakpoint(this.value, double scaleValue) : scale = Scale(scaleValue);
 }
 
 /// Screen size breakpoints and scale factors for responsive utilities.
 abstract final class Breakpoints {
-  /// Screen width threshold for tablet (default: 600.0).
-  static final tablet = Breakpoint(600.0, 1.5);
+  /// Screen width threshold for landscape/tablet screens (default: 600.0).
+  static final land = Breakpoint(600.0, 1.5);
 
-  /// Screen width threshold for desktop (default: 840.0).
-  static final desktop = Breakpoint(840.0, 2.0);
+  /// Screen width threshold for wide/desktop screens (default: 840.0).
+  static final wide = Breakpoint(840.0, 2.0);
 }

@@ -1,48 +1,44 @@
 import 'dart:ui' as ui;
 import 'package:flutter/widgets.dart';
 import '../../responsive/breakpoints.dart';
+import '../magic/magic_boolean.dart';
+import '../magic/magic_object.dart';
 
 /// A responsive value container that adapts based on screen size.
 class Fit<T> {
-  /// Value for compact screens (mobile, < [Breakpoints.tablet.value]).
-  final T mobile;
+  /// Value for portrait screens (< [Breakpoints.land.value]).
+  final T port;
 
-  /// Value for medium screens (tablet, [Breakpoints.tablet.value] <= width < [Breakpoints.desktop.value]).
-  final T? _tablet;
+  /// Value for landscape screens ([Breakpoints.land.value] <= width < [Breakpoints.wide.value]).
+  final T? _land;
 
-  /// Value for expanded screens (desktop, width >= [Breakpoints.desktop.value]).
-  final T? _desktop;
+  /// Value for wide screens (width >= [Breakpoints.wide.value]).
+  final T? _wide;
 
-  const Fit(this.mobile, {this._tablet, this._desktop});
+  const Fit(this.port, {this._land, this._wide});
 
-  /// Resolves the tablet value. If not explicitly set and [mobile] is a [num],
-  /// automatically scales the [mobile] value by [Breakpoints.tablet.scale()].
-  T get tablet {
-    if (_tablet != null) return _tablet as T;
-    final m = mobile;
-    if (m is num) {
-      final double scaled = m.toDouble() * Breakpoints.tablet.scale();
-      if (m is int) {
-        return scaled.toInt() as T;
-      }
-      return scaled as T;
+  /// Resolves the land value. If not explicitly set and [port] is a [num],
+  /// automatically scales the [port] value by [Breakpoints.land.scale()].
+  T get land {
+    if (_land != null) return _land as T;
+    final p = port;
+    if (p is num) {
+      final double scaled = p.toDouble() * Breakpoints.land.scale();
+      return (p is int ? scaled.toInt() : scaled) as T;
     }
-    return m;
+    return p;
   }
 
-  /// Resolves the desktop value. If not explicitly set and [mobile] is a [num],
-  /// automatically scales the [mobile] value by [Breakpoints.desktop.scale()].
-  T get desktop {
-    if (_desktop != null) return _desktop as T;
-    final m = mobile;
-    if (m is num) {
-      final double scaled = m.toDouble() * Breakpoints.desktop.scale();
-      if (m is int) {
-        return scaled.toInt() as T;
-      }
-      return scaled as T;
+  /// Resolves the wide value. If not explicitly set and [port] is a [num],
+  /// automatically scales the [port] value by [Breakpoints.wide.scale()].
+  T get wide {
+    if (_wide != null) return _wide as T;
+    final p = port;
+    if (p is num) {
+      final double scaled = p.toDouble() * Breakpoints.wide.scale();
+      return (p is int ? scaled.toInt() : scaled) as T;
     }
-    return m;
+    return p;
   }
 
   /// Creates a responsive [Fit] using the current screen size as reference.
@@ -55,26 +51,28 @@ class Fit<T> {
     final double val = (value as num).toDouble();
     final width = _getScreenWidth();
 
-    T castNum(double d) {
-      if (value is int) {
-        return d.toInt() as T;
-      }
-      return d as T;
+    T cast(double d) {
+      return (value is int ? d.toInt() : d) as T;
     }
 
-    if (width >= Breakpoints.desktop.value) {
-      final mobileValue = val / Breakpoints.desktop.scale();
-      return Fit(castNum(mobileValue), tablet: castNum(mobileValue * Breakpoints.tablet.scale()), desktop: value);
-    } else if (width >= Breakpoints.tablet.value) {
-      final mobileValue = val / Breakpoints.tablet.scale();
-      return Fit(castNum(mobileValue), tablet: value, desktop: castNum(mobileValue * Breakpoints.desktop.scale()));
-    } else {
-      return Fit(
-        value,
-        tablet: castNum(val * Breakpoints.tablet.scale()),
-        desktop: castNum(val * Breakpoints.desktop.scale()),
-      );
-    }
+    final isWide = width >= Breakpoints.wide.value;
+    final isLand = width >= Breakpoints.land.value;
+
+    return isWide.pick(
+      match: () {
+        final portValue = val / Breakpoints.wide.scale();
+        return Fit(cast(portValue), land: cast(portValue * Breakpoints.land.scale()), wide: value);
+      },
+      otherwise: () => isLand.pick(
+        match: () {
+          final portValue = val / Breakpoints.land.scale();
+          return Fit(cast(portValue), land: value, wide: cast(portValue * Breakpoints.wide.scale()));
+        },
+        otherwise: () {
+          return Fit(value, land: cast(val * Breakpoints.land.scale()), wide: cast(val * Breakpoints.wide.scale()));
+        },
+      ),
+    );
   }
 
   /// Helper to get logical width of primary window context-free.
@@ -90,30 +88,20 @@ class Fit<T> {
 
   /// Resolves the value based on screen width, optionally using [BuildContext].
   T resolve([BuildContext? context]) {
-    final double width;
-    if (context != null) {
-      width = MediaQuery.sizeOf(context).width;
-    } else {
-      width = _getScreenWidth();
-    }
+    final double width = context?.let((c) => MediaQuery.sizeOf(c).width) ?? _getScreenWidth();
 
-    if (width >= Breakpoints.desktop.value) {
-      return desktop;
-    }
-    if (width >= Breakpoints.tablet.value) {
-      return tablet;
-    }
-    return mobile;
+    final isWide = width >= Breakpoints.wide.value;
+    final isLand = width >= Breakpoints.land.value;
+
+    return isWide.pick(
+      match: () => wide,
+      otherwise: () => isLand.pick(match: () => land, otherwise: () => port),
+    );
   }
+
+  /// Alias for [resolve] to evaluate the responsive value for the given [context].
+  T fit(BuildContext context) => resolve(context);
 
   /// Callable interface so a token instance can be called directly: `Space.base(context)`
   T call([BuildContext? context]) => resolve(context);
-}
-
-/// Extension on all types to easily create responsive [Fit<T>] values.
-extension FitExtension<T> on T {
-  /// Converts this value into a responsive [Fit<T>].
-  Fit<T> fit({T? tablet, T? desktop}) {
-    return Fit<T>(this, tablet: tablet, desktop: desktop);
-  }
 }

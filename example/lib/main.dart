@@ -10,15 +10,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF6750A4), brightness: Brightness.dark),
-      ),
-      home: const Root(),
-    );
+    return const MaterialApp(debugShowCheckedModeBanner: false, home: Root());
   }
 }
 
@@ -27,17 +19,17 @@ class Root extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme colors = .of(context);
+    final ColorScheme colors = Theme.of(context).colorScheme;
     final width = MediaQuery.sizeOf(context).width;
-    final isCompact = width < Breakpoints.tablet.value;
-    final isDesktop = width >= Breakpoints.desktop.value;
+    final isPort = width < Breakpoints.land.value;
+    final isWide = width >= Breakpoints.wide.value;
 
     // Showcase 1: MagicObjectExtension.let
     // Dynamically resolves a descriptive text for the screen configuration.
     final deviceDescription = width.let((w) {
-      if (w >= Breakpoints.desktop.value) return 'Expanded Workspace';
-      if (w >= Breakpoints.tablet.value) return 'Medium Tablet View';
-      return 'Compact Mobile Layout';
+      if (w >= Breakpoints.wide.value) return 'Expanded Wide View';
+      if (w >= Breakpoints.land.value) return 'Medium Landscape View';
+      return 'Compact Portrait Layout';
     });
 
     return Scaffold(
@@ -46,63 +38,71 @@ class Root extends StatelessWidget {
           const SliverAppBar.medium(title: Text('Lumu Evolve')),
           SliverToBoxAdapter(
             child: Column(
-              crossAxisAlignment: .start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Polished Card with Gradient background & responsive layouts
-                Card(
-                  clipBehavior: .antiAlias,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [colors.primaryContainer, colors.surfaceContainerHighest.withValues(alpha: 0.4)],
-                        begin: .topLeft,
-                        end: .bottomRight,
+                Padding(
+                  padding: EdgeInsets.all(Space.base.fit(context)),
+                  child: Card(
+                    clipBehavior: Clip.antiAlias,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [colors.primaryContainer, colors.surfaceContainerHighest.withValues(alpha: 0.4)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
                       ),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: .start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: .spaceBetween,
+                      child: Padding(
+                        padding: EdgeInsets.all(Space.large.fit(context)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Showcase 2: MagicBooleanExtension.pick
-                            // Lazy-evaluates and picks the correct icon based on screen size.
-                            isCompact.pick(
-                              match: () => const Icon(Icons.phone_iphone, size: 28),
-                              otherwise: () => isDesktop.pick(
-                                match: () => const Icon(Icons.desktop_windows, size: 28),
-                                otherwise: () => const Icon(Icons.tablet_mac, size: 28),
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                // Showcase 2: MagicBooleanExtension.pick
+                                // Lazy-evaluates and picks the correct icon based on screen size.
+                                isPort.pick(
+                                  match: () => const Icon(Icons.phone_iphone, size: 28),
+                                  otherwise: () => isWide.pick(
+                                    match: () => const Icon(Icons.desktop_windows, size: 28),
+                                    otherwise: () => const Icon(Icons.tablet_mac, size: 28),
+                                  ),
+                                ),
+                                // Showcase 3: MagicBooleanExtension.when
+                                // Instantly maps the boolean state to layout attributes.
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: Space.small.fit(context),
+                                    vertical: Space.tiny.fit(context),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: isPort.when(then: colors.secondaryContainer, pass: colors.primaryContainer),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Text(isPort.when(then: 'PORTRAIT', pass: 'RESPONSIVE')),
+                                ),
+                              ],
                             ),
-                            // Showcase 3: MagicBooleanExtension.when
-                            // Instantly maps the boolean state to layout attributes.
-                            Container(
-                              decoration: BoxDecoration(
-                                color: isCompact.when(then: colors.secondaryContainer, pass: colors.primaryContainer),
-                                borderRadius: .circular(12),
-                              ),
-                              child: Text(
-                                isCompact.when(then: 'MOBILE', pass: 'RESPONSIVE'),
-                              ).horizontal(Space.small).vertical(Space.tiny),
+                            SizedBox(height: Space.medium(context)),
+                            // Showcase 4: MagicObjectExtension.or
+                            // Resolves value with a safe fallback.
+                            Text(
+                              deviceDescription.or('Unrecognized Screen Size'),
+                              style: Theme.of(context).textTheme.headlineSmall,
+                            ),
+                            SizedBox(height: Space.small.fit(context)),
+                            const Text(
+                              'Experience premium, compile-time responsive padding tokens that automatically adapt to your window dimension.',
+                              style: TextStyle(color: Colors.grey),
                             ),
                           ],
                         ),
-                        SizedBox(height: Space.medium(context)),
-                        // Showcase 4: MagicObjectExtension.or
-                        // Resolves value with a safe fallback.
-                        Text(
-                          deviceDescription.or('Unrecognized Screen Size'),
-                          style: TextTheme.of(context).headlineSmall,
-                        ),
-                        const SizedBox(height: 6),
-                        const Text(
-                          'Experience premium, compile-time responsive padding tokens that automatically adapt to your window dimension.',
-                          style: TextStyle(fontSize: 13, height: 1.4, color: Colors.grey),
-                        ),
-                      ],
-                    ).pad(Space.large, context: context),
+                      ),
+                    ),
                   ),
-                ).pad(Space.base, context: context),
+                ),
               ],
             ),
           ),

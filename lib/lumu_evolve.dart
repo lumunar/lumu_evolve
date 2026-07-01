@@ -7,4 +7,3 @@ export 'src/components/magic/magic_object.dart';
 export 'src/responsive/breakpoints.dart';
 export 'src/components/space/fit.dart';
 export 'src/components/space/space.dart';
-export 'src/components/space/pad.dart';
