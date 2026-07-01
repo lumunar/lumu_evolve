@@ -92,7 +92,7 @@ class Root extends StatelessWidget {
                         // Resolves value with a safe fallback.
                         Text(
                           deviceDescription.or('Unrecognized Screen Size'),
-                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w800),
+                          style: TextTheme.of(context).headlineSmall,
                         ),
                         const SizedBox(height: 6),
                         const Text(
