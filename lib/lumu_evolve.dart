@@ -2,5 +2,9 @@
 /// scope functions, fluent extensions, and powerful type helpers.
 library;
 
-export 'src/magic_boolean.dart';
-export 'src/magic_object.dart';
+export 'src/components/magic/magic_boolean.dart';
+export 'src/components/magic/magic_object.dart';
+export 'src/responsive/breakpoints.dart';
+export 'src/components/space/fit.dart';
+export 'src/components/space/space.dart';
+export 'src/components/space/padding.dart';

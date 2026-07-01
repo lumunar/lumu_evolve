@@ -47,4 +47,19 @@ void main() {
     otherwise: () => 'Loading Shimmer...',
   );
   debugPrint('isLoaded: $isLoaded -> result: $widget');
+
+  // 6. Showcase Responsive Spacing & Layout Utilities
+  debugPrint('\n--- 6. Responsive Spacing & Layout Utilities ---');
+  // Read current scale and update it
+  debugPrint('Default Desktop Scale: ${Breakpoints.desktop.scale()}');
+  Breakpoints.desktop.scale(1.8);
+  debugPrint('Updated Desktop Scale: ${Breakpoints.desktop.scale()}');
+
+  // Context-free token resolution
+  final baseSpacing = Space.base();
+  debugPrint('Space.base resolved context-free: $baseSpacing');
+
+  // Creating and resolving dynamic fit values
+  final customWidth = 200.fit(tablet: 400, desktop: 600);
+  debugPrint('Responsive width resolved context-free: ${customWidth()}');
 }
