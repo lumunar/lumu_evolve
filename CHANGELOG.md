@@ -1,3 +1,14 @@
+## 1.1.0
+
+### Added
+- **Responsive Layout Engine (`Fit<T>`)**: Viewport-aware layout token container matching portrait (`port`), landscape (`land`), and wide (`wide`) screen bounds.
+- **Auto-Calculated Spacing Tokens (`Space`)**: Semantic layout tokens (`tiny`, `mini`, `small`, `base`, `medium`, `large`, `huge`) that scale up dynamically based on global multipliers.
+- **Adaptive Spacing Override (`Fit.adaptive`)**: Back-calculates baseline dimensions at runtime to prevent double-scaling layout parameters.
+- **Scale Configurations (`Breakpoints`)**: Mutable global breakpoint scaling factors (`Breakpoints.land`, `Breakpoints.wide`) that can be customized dynamically at app startup.
+
+### Changed
+- Re-architected and polished the example app in `example/lib/main.dart` into a clean modular layout (`App`, `Root`, `Banner`, `Profile`) demonstrating the integration of all scope functions, conditional selectors, and spacing tokens.
+
 ## 1.0.1
 
 ### Added
