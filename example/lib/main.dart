@@ -10,104 +10,205 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(debugShowCheckedModeBanner: false, home: Root());
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      themeMode: .dark,
+      darkTheme: ThemeData.dark(),
+      home: const Home(),
+    );
   }
 }
 
-class Root extends StatelessWidget {
-  const Root({super.key});
+class Home extends StatelessWidget {
+  const Home({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme colors = Theme.of(context).colorScheme;
-    final width = MediaQuery.sizeOf(context).width;
-    final isPort = width < Breakpoints.land.value;
-    final isWide = width >= Breakpoints.wide.value;
-
-    // Showcase 1: MagicObjectExtension.let
-    // Dynamically resolves a descriptive text for the screen configuration.
-    final deviceDescription = width.let((w) {
-      if (w >= Breakpoints.wide.value) return 'Expanded Wide View';
-      if (w >= Breakpoints.land.value) return 'Medium Landscape View';
-      return 'Compact Portrait Layout';
-    });
-
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          const SliverAppBar.medium(title: Text('Lumu Evolve')),
-          SliverToBoxAdapter(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Polished Card with Gradient background & responsive layouts
-                Padding(
-                  padding: EdgeInsets.all(Space.base.fit(context)),
-                  child: Card(
-                    clipBehavior: Clip.antiAlias,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [colors.primaryContainer, colors.surfaceContainerHighest.withValues(alpha: 0.4)],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.all(Space.large.fit(context)),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                // Showcase 2: MagicBooleanExtension.pick
-                                // Lazy-evaluates and picks the correct icon based on screen size.
-                                isPort.pick(
-                                  match: () => const Icon(Icons.phone_iphone, size: 28),
-                                  otherwise: () => isWide.pick(
-                                    match: () => const Icon(Icons.desktop_windows, size: 28),
-                                    otherwise: () => const Icon(Icons.tablet_mac, size: 28),
-                                  ),
-                                ),
-                                // Showcase 3: MagicBooleanExtension.when
-                                // Instantly maps the boolean state to layout attributes.
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: Space.small.fit(context),
-                                    vertical: Space.tiny.fit(context),
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: isPort.when(then: colors.secondaryContainer, pass: colors.primaryContainer),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: Text(isPort.when(then: 'PORTRAIT', pass: 'RESPONSIVE')),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: Space.medium(context)),
-                            // Showcase 4: MagicObjectExtension.or
-                            // Resolves value with a safe fallback.
-                            Text(
-                              deviceDescription.or('Unrecognized Screen Size'),
-                              style: Theme.of(context).textTheme.headlineSmall,
-                            ),
-                            SizedBox(height: Space.small.fit(context)),
-                            const Text(
-                              'Experience premium, compile-time responsive padding tokens that automatically adapt to your window dimension.',
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+          const SliverAppBar.large(title: Text('Lumu Evolve')),
+          SliverPadding(
+            padding: .symmetric(horizontal: Space.base.fit(context)),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate([
+                const Banner(),
+                SizedBox(height: Space.large.fit(context)),
+                const Profile(),
+                SizedBox(height: Space.huge.fit(context)),
+              ]),
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class Banner extends StatelessWidget {
+  const Banner({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final ColorScheme colors = .of(context);
+    final TextTheme texts = .of(context);
+    final double width = MediaQuery.sizeOf(context).width;
+    final bool isPort = width < Breakpoints.land.value;
+    final bool isWide = width >= Breakpoints.wide.value;
+
+    // Showcase 1: Scope function .let to evaluate screen width descriptions
+    final status = width.let((w) {
+      if (w >= Breakpoints.wide.value) return 'Ultra Wide Workspace';
+      if (w >= Breakpoints.land.value) return 'Adaptive Landscape View';
+      return 'Compact Portrait Layout';
+    });
+
+    return Card(
+      clipBehavior: .antiAlias,
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [colors.primaryContainer, colors.surfaceContainerHighest.withValues(alpha: 0.6)],
+            begin: .topLeft,
+            end: .bottomRight,
+          ),
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(Space.large.fit(context)),
+          child: Column(
+            crossAxisAlignment: .start,
+            children: [
+              Row(
+                mainAxisAlignment: .spaceBetween,
+                children: [
+                  // Showcase 2: Lazy selection using .pick for screen-specific icons
+                  isPort.pick(
+                    match: () => Icon(Icons.phone_iphone, size: 32, color: colors.primary),
+                    otherwise: () => isWide.pick(
+                      match: () => Icon(Icons.desktop_windows, size: 32, color: colors.primary),
+                      otherwise: () => Icon(Icons.tablet_mac, size: 32, color: colors.primary),
+                    ),
+                  ),
+                  // Showcase 3: Boolean status mapping with .when
+                  Container(
+                    padding: .symmetric(horizontal: Space.small.fit(context), vertical: Space.tiny.fit(context)),
+                    decoration: BoxDecoration(
+                      color: isPort.when(then: colors.secondaryContainer, pass: colors.tertiaryContainer),
+                      borderRadius: .circular(16),
+                    ),
+                    child: Text(
+                      isPort.when(then: 'PORTRAIT', pass: 'RESPONSIVE'),
+                      style: texts.labelMedium,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: Space.medium.fit(context)),
+              // Showcase 4: Safe fallback with .or on string values
+              Text(status.or('Default Workspace'), style: texts.headlineSmall?.copyWith(fontWeight: .bold)),
+              SizedBox(height: Space.tiny.fit(context)),
+              Text(
+                'Screen width: ${width.toStringAsFixed(1)} dp',
+                style: .new(color: colors.onSurfaceVariant.withValues(alpha: 0.8)),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class Profile extends StatefulWidget {
+  const Profile({super.key});
+
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  bool _isVip = false;
+  String? _customProfileName;
+
+  @override
+  Widget build(BuildContext context) {
+    final ColorScheme colors = .of(context);
+    final TextTheme texts = .of(context);
+
+    return Column(
+      crossAxisAlignment: .start,
+      children: [
+        Row(
+          mainAxisAlignment: .spaceBetween,
+          children: [
+            Text('Profile Management', style: texts.titleMedium?.copyWith(fontWeight: .bold)),
+            IconButton(
+              icon: const Icon(Icons.refresh, size: 20),
+              onPressed: () {
+                setState(() {
+                  _customProfileName = _customProfileName == null ? 'Sarah Jenkins' : null;
+                });
+              },
+            ),
+          ],
+        ),
+        SizedBox(height: Space.small.fit(context)),
+        Card(
+          child: Padding(
+            padding: .all(Space.medium.fit(context)),
+            child: Column(
+              children: [
+                ListTile(
+                  contentPadding: .zero,
+                  leading: CircleAvatar(
+                    backgroundColor: colors.primary,
+                    child: Icon(
+                      // Showcase 5: VIP icon conditional with .when
+                      _isVip.when(then: Icons.star, pass: Icons.person),
+                      color: colors.onPrimary,
+                    ),
+                  ),
+                  // Showcase 6: Safe nullable variable evaluation with .or
+                  title: Text(_customProfileName.or('Guest User')),
+                  subtitle: Text(
+                    _isVip.when(then: 'Premium VIP Member', pass: 'Standard Account'),
+                    style: .new(
+                      color: _isVip.when(then: Colors.amber, pass: colors.onSurfaceVariant),
+                      fontWeight: _isVip.when(then: .bold, pass: .normal),
+                    ),
+                  ),
+                  trailing: Switch(
+                    value: _isVip,
+                    onChanged: (val) {
+                      setState(() => _isVip = val);
+                    },
+                  ),
+                ),
+                Divider(height: Space.large.fit(context)),
+                // Showcase 7: Custom layout configuration using .pick
+                _isVip.pick(
+                  match: () => Container(
+                    padding: .all(Space.small.fit(context)),
+                    decoration: BoxDecoration(
+                      color: Colors.amber.withValues(alpha: 0.15),
+                      borderRadius: .circular(8),
+                      border: .all(color: Colors.amber.withValues(alpha: 0.3)),
+                    ),
+                    child: const Row(
+                      spacing: 8.0,
+                      children: [
+                        Icon(Icons.workspace_premium, color: Colors.amber),
+                        Expanded(child: Text('Unlocked all premium responsive grids and adaptive layout overrides.')),
+                      ],
+                    ),
+                  ),
+                  otherwise: () => const SizedBox.shrink(),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
