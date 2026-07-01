@@ -69,10 +69,7 @@ void main() {
   });
 
   group('Widget Tests (MediaQuery Context)', () {
-    Widget buildTestWidget({
-      required Size size,
-      required WidgetBuilder builder,
-    }) {
+    Widget buildTestWidget({required Size size, required WidgetBuilder builder}) {
       return MediaQuery(
         data: MediaQueryData(size: size),
         child: Builder(builder: builder),
@@ -84,7 +81,7 @@ void main() {
         buildTestWidget(
           size: const Size(400, 800),
           builder: (context) {
-            final paddingValue = context.padding(Space.base);
+            final paddingValue = context.pad(Space.base);
             expect(paddingValue, equals(const EdgeInsets.all(16.0)));
 
             final xPadding = context.horizontal(Space.base);
@@ -93,10 +90,7 @@ void main() {
             final yPadding = context.vertical(Space.base);
             expect(yPadding, equals(const EdgeInsets.symmetric(vertical: 16.0)));
 
-            final onlyPadding = context.only(
-              left: Space.small,
-              top: Space.base,
-            );
+            final onlyPadding = context.only(left: Space.small, top: Space.base);
             expect(onlyPadding, equals(const EdgeInsets.only(left: 12.0, top: 16.0)));
 
             return const SizedBox();
@@ -110,7 +104,7 @@ void main() {
         buildTestWidget(
           size: const Size(700, 1024),
           builder: (context) {
-            final paddingValue = context.padding(Space.base);
+            final paddingValue = context.pad(Space.base);
             expect(paddingValue, equals(const EdgeInsets.all(24.0))); // 16.0 * 1.5
 
             final xPadding = context.horizontal(Space.base);
@@ -119,10 +113,7 @@ void main() {
             final yPadding = context.vertical(Space.base);
             expect(yPadding, equals(const EdgeInsets.symmetric(vertical: 24.0)));
 
-            final onlyPadding = context.only(
-              left: Space.small,
-              top: Space.base,
-            );
+            final onlyPadding = context.only(left: Space.small, top: Space.base);
             expect(onlyPadding, equals(const EdgeInsets.only(left: 18.0, top: 24.0))); // 12 * 1.5, 16 * 1.5
 
             return const SizedBox();
@@ -136,7 +127,7 @@ void main() {
         buildTestWidget(
           size: const Size(1000, 1200),
           builder: (context) {
-            final paddingValue = context.padding(Space.base);
+            final paddingValue = context.pad(Space.base);
             expect(paddingValue, equals(const EdgeInsets.all(32.0))); // 16.0 * 2.0
 
             final xPadding = context.horizontal(Space.base);
@@ -145,10 +136,7 @@ void main() {
             final yPadding = context.vertical(Space.base);
             expect(yPadding, equals(const EdgeInsets.symmetric(vertical: 32.0)));
 
-            final onlyPadding = context.only(
-              left: Space.small,
-              top: Space.base,
-            );
+            final onlyPadding = context.only(left: Space.small, top: Space.base);
             expect(onlyPadding, equals(const EdgeInsets.only(left: 24.0, top: 32.0))); // 12 * 2.0, 16 * 2.0
 
             return const SizedBox();
@@ -162,7 +150,7 @@ void main() {
         buildTestWidget(
           size: const Size(700, 1024), // Tablet
           builder: (context) {
-            final paddedWidget = const SizedBox().padding(Space.base, context: context);
+            final paddedWidget = const SizedBox().pad(Space.base, context: context);
             expect(paddedWidget, isA<Padding>());
             final paddingVal = (paddedWidget as Padding).padding;
             expect(paddingVal, equals(const EdgeInsets.all(24.0))); // 16.0 * 1.5
@@ -182,10 +170,7 @@ void main() {
         buildTestWidget(
           size: const Size(400, 800),
           builder: (context) {
-            expect(
-              () => context.only(left: 10, start: 10),
-              throwsArgumentError,
-            );
+            expect(() => context.only(left: 10, start: 10), throwsArgumentError);
             return const SizedBox();
           },
         ),

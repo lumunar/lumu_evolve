@@ -28,7 +28,7 @@ double? _resolveNullableValue(Object? value, [BuildContext? context]) {
 /// Fluent responsive padding utilities on [BuildContext].
 extension LumuContextPadExtension on BuildContext {
   /// Returns [EdgeInsets.all] resolved from a [num] or [Fit<num>].
-  EdgeInsets padding(Object value) {
+  EdgeInsets pad(Object value) {
     return EdgeInsets.all(_resolveValue(value, this));
   }
 
@@ -67,7 +67,7 @@ extension LumuContextPadExtension on BuildContext {
 extension LumuWidgetPadExtension on Widget {
   /// Wraps the widget in a responsive [Padding] on all sides.
   /// If [context] is provided, resolves reactively to screen updates.
-  Widget padding(Object value, {BuildContext? context}) {
+  Widget pad(Object value, {BuildContext? context}) {
     return Padding(padding: EdgeInsets.all(_resolveValue(value, context)), child: this);
   }
 

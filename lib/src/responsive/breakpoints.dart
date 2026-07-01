@@ -1,25 +1,21 @@
 /// A mutable scale property supporting both calling to set/get and direct assignment.
 class BreakpointScale {
-  double _value;
-  BreakpointScale(this._value);
+  /// The scale factor value.
+  double value;
 
-  /// Reads the scale factor.
-  double get value => _value;
-
-  /// Updates the scale factor.
-  set value(double newValue) => _value = newValue;
+  BreakpointScale(this.value);
 
   /// Sets (if parameter provided) and returns the scale factor.
   /// Example: `Breakpoints.desktop.scale(1.8)`
   double call([double? newValue]) {
     if (newValue != null) {
-      _value = newValue;
+      value = newValue;
     }
-    return _value;
+    return value;
   }
 
   @override
-  String toString() => _value.toString();
+  String toString() => value.toString();
 }
 
 /// A representation of a screen size breakpoint.
