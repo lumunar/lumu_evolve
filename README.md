@@ -4,10 +4,6 @@ An elegant and fluent utility kit for Dart and Flutter, designed to streamline c
 
 By introducing readable, chainable, and functional scope functions, it empowers developers to write cleaner, more expressive code without nested ternaries or boilerplate layout logic.
 
-
-
-
-
 #### Installation
 
 Add the dependency to your project:
