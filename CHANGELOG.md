@@ -1,3 +1,11 @@
+## 1.1.2
+
+### Added
+* Community standards including Code of Conduct and Contributing guidelines
+* Security Policy detailing supported versions and private vulnerability reporting
+* Interactive GitHub Issue Forms for bug reports and feature requests
+* Simplified action oriented Pull Request template
+
 ## 1.1.1
 
 ### Documentation
