@@ -57,3 +57,47 @@ Widget header(User? user, bool isCompact) {
   );
 }
 ```
+
+
+<br>
+
+#### Responsive Spacing
+
+**Before**: Calculating responsive spacing dynamically across different screen sizes usually requires querying `MediaQuery` and writing verbose viewport branching:
+
+```dart
+@override
+Widget build(BuildContext context) {
+  final width = MediaQuery.of(context).size.width;
+  final double padding;
+
+  if (width >= 840.0) {
+    padding = 32.0;
+  } else if (width >= 600.0) {
+    padding = 24.0;
+  } else {
+    padding = 16.0;
+  }
+
+  return Padding(
+    padding: EdgeInsets.all(padding),
+    child: const CardContent(),
+  );
+}
+```
+
+
+**After**: Using context-aware design tokens, layout values scale automatically across viewports with zero boilerplate:
+
+```dart
+@override
+Widget build(BuildContext context) {
+  return Padding(
+    padding: EdgeInsets.all(
+      const Fit(16.0, land: 24.0, wide: 32.0).fit(context),
+    ),
+    child: const CardContent(),
+  );
+}
+```
+
