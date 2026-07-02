@@ -80,8 +80,8 @@ Widget build(BuildContext context) {
   }
 
   return Padding(
-    padding: EdgeInsets.all(padding),
-    child: const CardContent(),
+    padding: .all(padding),
+    child: const Content(),
   );
 }
 ```
@@ -93,11 +93,8 @@ Widget build(BuildContext context) {
 @override
 Widget build(BuildContext context) {
   return Padding(
-    padding: EdgeInsets.all(
-      const Fit(16.0, land: 24.0, wide: 32.0).fit(context),
-    ),
-    child: const CardContent(),
+    padding: .all(Space.base(context)),
+    child: const Content(),
   );
 }
 ```
-
