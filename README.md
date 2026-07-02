@@ -40,7 +40,7 @@ Widget header(User? user, bool isCompact) {
 }
 ```
 
-**After**: Using declarative extension methods, you can write linear, self-documenting code that is easier to maintain:
+**After**: Using declarative extension methods, you can write linear, self documenting code that is easier to maintain:
 
 ```dart
 Widget header(User? user, bool isCompact) {
@@ -83,7 +83,7 @@ Widget build(BuildContext context) {
 }
 ```
 
-**After**: Using context-aware design tokens, layout values scale automatically across viewports with zero boilerplate:
+**After**: Using context aware design tokens, layout values scale automatically across viewports with zero boilerplate:
 
 ```dart
 @override
@@ -99,7 +99,7 @@ Widget build(BuildContext context) {
 
 ### Scoped Styling & Configuration
 
-**Before**: Managing conditional styles and fallback values for nullable models often leads to boilerplate-heavy nested branches:
+**Before**: Managing conditional styles and fallback values for nullable models often leads to boilerplate heavy nested branches:
 
 ```dart
 Widget userProfileCard(User? user, BuildContext context) {
@@ -128,7 +128,7 @@ Widget userProfileCard(User? user, BuildContext context) {
 ```
 
 
-**After**: Combining scope functions (`.let`, `.or`) with fluent booleans keeps the layout expression-driven, declarative, and completely null-safe:
+**After**: Combining scope functions (`.let`, `.or`) with fluent booleans keeps the layout expression driven, declarative, and completely null safe:
 
 ```dart
 Widget userProfileCard(User? user, BuildContext context) {
