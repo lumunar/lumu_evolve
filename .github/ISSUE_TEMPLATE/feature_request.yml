@@ -1,0 +1,57 @@
+name: Feature Request
+description: Suggest new capabilities or improvements for Lumu Evolve
+labels: [enhancement]
+body: [
+  {
+    type: markdown,
+    attributes: {
+      value: "### Feature Request\n\nPlease use this form to suggest new features."
+    }
+  },
+  {
+    type: textarea,
+    id: description,
+    attributes: {
+      label: "Description",
+      description: "Provide a clear description of the feature you want.",
+      placeholder: "What capability should we add?"
+    },
+    validations: {
+      required: true
+    }
+  },
+  {
+    type: textarea,
+    id: problem,
+    attributes: {
+      label: "Problem Statement",
+      description: "Describe the problem this feature solves.",
+      placeholder: "What limitation do you currently face?"
+    },
+    validations: {
+      required: true
+    }
+  },
+  {
+    type: textarea,
+    id: solution,
+    attributes: {
+      label: "Proposed Solution",
+      description: "Explain how you want the feature to work.",
+      placeholder: "Describe the design or behavior"
+    },
+    validations: {
+      required: true
+    }
+  },
+  {
+    type: textarea,
+    id: code,
+    attributes: {
+      label: "Code Concept",
+      description: "Provide a conceptual example of the proposed API.",
+      render: dart,
+      placeholder: "// Paste concept code here"
+    }
+  }
+]

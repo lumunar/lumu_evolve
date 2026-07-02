@@ -1,0 +1,66 @@
+name: Bug Report
+description: Report a bug to help us improve Lumu Evolve
+labels: [bug]
+body: [
+  {
+    type: markdown,
+    attributes: {
+      value: "### Bug Report\n\nPlease use this form to report bugs and help us improve Lumu Evolve."
+    }
+  },
+  {
+    type: textarea,
+    id: description,
+    attributes: {
+      label: "Description",
+      description: "Provide a clear and concise description of the bug.",
+      placeholder: "What went wrong?"
+    },
+    validations: {
+      required: true
+    }
+  },
+  {
+    type: textarea,
+    id: steps,
+    attributes: {
+      label: "Reproduction Steps",
+      description: "List the steps to reproduce the behavior.",
+      placeholder: "1. Step one\n2. Step two"
+    },
+    validations: {
+      required: true
+    }
+  },
+  {
+    type: textarea,
+    id: expected,
+    attributes: {
+      label: "Expected Behavior",
+      description: "Describe what you expected to happen.",
+      placeholder: "What should have happened?"
+    },
+    validations: {
+      required: true
+    }
+  },
+  {
+    type: textarea,
+    id: code,
+    attributes: {
+      label: "Code Example",
+      description: "Provide a minimal code snippet to demonstrate the problem.",
+      render: dart,
+      placeholder: "// Paste code here"
+    }
+  },
+  {
+    type: dropdown,
+    id: platforms,
+    attributes: {
+      label: "Affected Platforms",
+      options: [Android, iOS, Web, macOS, Windows, Linux],
+      multiple: true
+    }
+  }
+]
