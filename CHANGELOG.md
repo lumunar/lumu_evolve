@@ -1,3 +1,11 @@
+## 1.1.1
+
+### Documentation
+- **Enterprise README Overhaul**: Completely redesigned the layout and typography of the package documentation for enhanced readability.
+- **Enhanced Showcases**: Added comprehensive, side-by-side comparisons demonstrating declarative control flows, responsive spacing, scoped configurations, and declarative layout structures.
+- **Modern Dart Styles**: Updated code examples to use modern Dart shorthands (`.all()` for padding and `.topLeft` alignments) and improved null-safe expression chaining.
+- **Configuration Guides**: Added guidance on globally customizing breakpoints, scale factors, and spacing design tokens at app startup.
+
 ## 1.1.0
 
 ### Added
