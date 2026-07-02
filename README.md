@@ -170,3 +170,60 @@ Widget userProfileCard(User? user, BuildContext context) {
 }
 ```
 
+
+<br>
+
+### Declarative Layouts
+
+**Before**: Combining loading states with orientation checks often forces nested ternaries deep inside the layout tree:
+
+```dart
+Widget dashboard(bool isLoading, bool isLandscape, Widget data) {
+  return Scaffold(
+    body: isLoading
+      ? const Center(child: CircularProgressIndicator())
+      : Row(
+          children: [
+            if (isLandscape) const NavigationDrawer(),
+            Expanded(
+              child: Align(
+                alignment: isLandscape ? .topLeft : .center,
+                child: Padding(
+                  padding: .all(isLandscape ? 24.0 : 16.0),
+                  child: data,
+                ),
+              ),
+            ),
+          ],
+        ),
+  );
+}
+```
+
+
+**After**: Using fluent boolean mappings, layout conditions remain flat, linear, and easy to read:
+
+```dart
+Widget dashboard(bool isLoading, bool isLandscape, Widget data) {
+  return Scaffold(
+    body: isLoading.pick(
+      match: () => const Center(child: CircularProgressIndicator()),
+      otherwise: () => Row(
+        children: [
+          if (isLandscape) const NavigationDrawer(),
+          Expanded(
+            child: Align(
+              alignment: isLandscape.when(then: .topLeft, pass: .center),
+              child: Padding(
+                padding: .all(isLandscape.when(then: 24.0, pass: 16.0)),
+                child: data,
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+```
+
