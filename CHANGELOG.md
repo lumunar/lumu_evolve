@@ -1,3 +1,10 @@
+## 1.2.0
+
+### Changed
+- **Zero-Cost Spacing Tokens (`Fit`)**: Refactored `Fit` from a generic class to a Dart 3.3 non-generic `extension type` wrapping `double` and implementing `double`. Spacing tokens like `Space.base` can now be used as plain `double` values directly without any runtime allocation overhead.
+- Added `Fit.custom` factory for explicit viewport overrides.
+- Updated example app and test suites to align with the new non-generic `Fit` extension type API.
+
 ## 1.1.2
 
 ### Added
