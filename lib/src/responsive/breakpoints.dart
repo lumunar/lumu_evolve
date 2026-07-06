@@ -3,6 +3,7 @@ class Scale {
   /// The scale factor value.
   double value;
 
+  /// Creates a new [Scale] instance with the given baseline [value].
   Scale(this.value);
 
   /// Sets (if parameter provided) and returns the scale factor.
@@ -26,6 +27,8 @@ class Breakpoint {
   /// The scaling factor associated with this breakpoint.
   final Scale scale;
 
+  /// Creates a new [Breakpoint] instance with a width threshold [value]
+  /// and an associated scaling multiplier [scaleValue].
   Breakpoint(this.value, double scaleValue) : scale = Scale(scaleValue);
 }
 
