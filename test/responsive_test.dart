@@ -77,7 +77,8 @@ void main() {
           tester.view.resetDevicePixelRatio();
         });
 
-        // Fit.adaptive is called on a landscape/medium viewport. 24.0 is treated as the landscape value.
+        // Fit.adaptive is called on a landscape/medium viewport.
+        // 24.0 is treated as the landscape value.
         final adaptiveFit = Fit.adaptive(24.0);
         expect(adaptiveFit.land, equals(24.0));
         expect(adaptiveFit.port, equals(16.0)); // 24.0 / 1.5

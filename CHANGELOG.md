@@ -1,3 +1,9 @@
+## 1.2.1
+
+### Fixed
+- Added missing public API documentation comments for `Fit`, `Breakpoint`, and `Scale` constructors to ensure 100% pub.dev documentation coverage.
+- Formatted source files to resolve CI formatting checks.
+
 ## 1.2.0
 
 ### Changed

@@ -5,7 +5,12 @@ import '../magic/magic_boolean.dart';
 import '../magic/magic_object.dart';
 
 /// A responsive value container that adapts based on screen size.
-extension type const Fit(double port) implements double {
+///
+/// Creates a [Fit] instance wrapping a baseline [port] value.
+extension type const Fit(
+  /// The baseline value for portrait viewports.
+  double port
+) implements double {
   static final Map<double, (double, double)> _overrides = {};
 
   /// Resolves the land value. If not explicitly set,
