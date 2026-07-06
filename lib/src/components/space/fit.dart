@@ -5,86 +5,64 @@ import '../magic/magic_boolean.dart';
 import '../magic/magic_object.dart';
 
 /// A responsive value container that adapts based on screen size.
-class Fit<T> {
-  /// Value for portrait screens (< [Breakpoints.land.value]).
-  final T port;
+extension type const Fit(double port) implements double {
+  static final Map<double, (double, double)> _overrides = {};
 
-  /// Value for landscape screens ([Breakpoints.land.value] <= width < [Breakpoints.wide.value]).
-  final T? _land;
-
-  /// Value for wide screens (width >= [Breakpoints.wide.value]).
-  final T? _wide;
-
-  const Fit(this.port, {this._land, this._wide});
-
-  /// Resolves the land value. If not explicitly set and [port] is a [num],
+  /// Resolves the land value. If not explicitly set,
   /// automatically scales the [port] value by [Breakpoints.land.scale()].
-  T get land {
-    if (_land != null) return _land as T;
-    final p = port;
-    if (p is num) {
-      final double scaled = p.toDouble() * Breakpoints.land.scale();
-      return (p is int ? scaled.toInt() : scaled) as T;
-    }
-    return p;
+  double get land {
+    final custom = _overrides[port];
+    if (custom != null) return custom.$1;
+    return port * Breakpoints.land.scale();
   }
 
-  /// Resolves the wide value. If not explicitly set and [port] is a [num],
+  /// Resolves the wide value. If not explicitly set,
   /// automatically scales the [port] value by [Breakpoints.wide.scale()].
-  T get wide {
-    if (_wide != null) return _wide as T;
-    final p = port;
-    if (p is num) {
-      final double scaled = p.toDouble() * Breakpoints.wide.scale();
-      return (p is int ? scaled.toInt() : scaled) as T;
+  double get wide {
+    final custom = _overrides[port];
+    if (custom != null) return custom.$2;
+    return port * Breakpoints.wide.scale();
+  }
+
+  /// Factory constructor for custom landscape and wide values.
+  factory Fit.custom(double port, {double? land, double? wide}) {
+    if (land != null || wide != null) {
+      _overrides[port] = (
+        land ?? port * Breakpoints.land.scale(),
+        wide ?? port * Breakpoints.wide.scale(),
+      );
     }
-    return p;
+    return Fit(port);
   }
 
   /// Creates a responsive [Fit] using the current screen size as reference.
   /// Detects the active screen width and back-calculates scaled bounds.
-  factory Fit.adaptive(T value) {
-    if (value is! num) {
-      return Fit(value);
-    }
-
-    final double val = (value as num).toDouble();
+  factory Fit.adaptive(double value) {
     final width = _getScreenWidth();
-
-    T cast(double d) {
-      return (value is int ? d.toInt() : d) as T;
-    }
-
     final isWide = width >= Breakpoints.wide.value;
     final isLand = width >= Breakpoints.land.value;
 
-    return isWide.pick(
-      match: () {
-        final portValue = val / Breakpoints.wide.scale();
-        return Fit(
-          cast(portValue),
-          land: cast(portValue * Breakpoints.land.scale()),
-          wide: value,
-        );
-      },
-      otherwise: () => isLand.pick(
-        match: () {
-          final portValue = val / Breakpoints.land.scale();
-          return Fit(
-            cast(portValue),
-            land: value,
-            wide: cast(portValue * Breakpoints.wide.scale()),
-          );
-        },
-        otherwise: () {
-          return Fit(
-            value,
-            land: cast(val * Breakpoints.land.scale()),
-            wide: cast(val * Breakpoints.wide.scale()),
-          );
-        },
-      ),
-    );
+    if (isWide) {
+      final portValue = value / Breakpoints.wide.scale();
+      return Fit.custom(
+        portValue,
+        land: portValue * Breakpoints.land.scale(),
+        wide: value,
+      );
+    } else if (isLand) {
+      final portValue = value / Breakpoints.land.scale();
+      return Fit.custom(
+        portValue,
+        land: value,
+        wide: portValue * Breakpoints.wide.scale(),
+      );
+    } else {
+      return Fit.custom(
+        value,
+        land: value * Breakpoints.land.scale(),
+        wide: value * Breakpoints.wide.scale(),
+      );
+    }
   }
 
   /// Helper to get logical width of primary window context-free.
@@ -101,7 +79,7 @@ class Fit<T> {
   }
 
   /// Resolves the value based on screen width, optionally using [BuildContext].
-  T resolve([BuildContext? context]) {
+  double resolve([BuildContext? context]) {
     final double width =
         context?.let((c) => MediaQuery.sizeOf(c).width) ?? _getScreenWidth();
 
@@ -115,8 +93,8 @@ class Fit<T> {
   }
 
   /// Alias for [resolve] to evaluate the responsive value for the given [context].
-  T fit(BuildContext context) => resolve(context);
+  double fit(BuildContext context) => resolve(context);
 
   /// Callable interface so a token instance can be called directly: `Space.base(context)`
-  T call([BuildContext? context]) => resolve(context);
+  double call([BuildContext? context]) => resolve(context);
 }

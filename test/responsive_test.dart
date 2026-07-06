@@ -28,22 +28,28 @@ void main() {
 
   group('Fit', () {
     test('Explicit values resolve correctly based on width', () {
-      const fit = Fit<double>(10.0, land: 15.0, wide: 20.0);
+      final fit = Fit.custom(10.0, land: 15.0, wide: 20.0);
       expect(fit.port, equals(10.0));
       expect(fit.land, equals(15.0));
       expect(fit.wide, equals(20.0));
     });
 
     test('Auto-scaled values resolve correctly', () {
-      const fit = Fit<double>(10.0);
+      const fit = Fit(10.0);
       expect(fit.port, equals(10.0));
       expect(fit.land, equals(15.0)); // 10.0 * 1.5
       expect(fit.wide, equals(20.0)); // 10.0 * 2.0
     });
 
     test('Callable interface works', () {
-      const fit = Fit<double>(10.0, land: 15.0, wide: 20.0);
+      final fit = Fit.custom(10.0, land: 15.0, wide: 20.0);
       expect(fit(), equals(15.0));
+    });
+
+    test('Acts as a double directly', () {
+      double val = Space.base;
+      expect(val, equals(16.0));
+      expect(Space.base + 4.0, equals(20.0));
     });
   });
 
