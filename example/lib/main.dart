@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lumu_evolve/lumu_evolve.dart';
+import 'package:evolve/evolve.dart';
 
 void main() {
   runApp(const App());
@@ -27,7 +27,7 @@ class Home extends StatelessWidget {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          const SliverAppBar.large(title: Text('Lumu Evolve')),
+          const SliverAppBar.large(title: Text('Evolve')),
           SliverPadding(
             padding: .symmetric(horizontal: Space.base.fit(context)),
             sliver: SliverList(

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lumu_evolve/lumu_evolve.dart';
+import 'package:evolve/evolve.dart';
 
 void main() {
   group('MagicObjectExtension', () {

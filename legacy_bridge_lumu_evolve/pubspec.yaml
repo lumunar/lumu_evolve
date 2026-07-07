@@ -1,0 +1,15 @@
+name: lumu_evolve
+description: Deprecated. This package has been renamed to 'evolve'. Please migrate your dependencies to package:evolve.
+version: 1.3.0
+homepage: https://github.com/lumunar/evolve
+repository: https://github.com/lumunar/evolve
+issue_tracker: https://github.com/lumunar/evolve/issues
+
+environment:
+  sdk: '>=3.12.2 <4.0.0'
+  flutter: '>=3.44.4'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  evolve: ^1.2.1

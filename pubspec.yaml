@@ -1,9 +1,9 @@
-name: lumu_evolve
+name: evolve
 description: A premium, enterprise-grade utility package evolving Dart with fluent scope functions, conditional selectors, and powerful type helpers.
 version: 1.2.1
-homepage: https://github.com/lumunar/lumu_evolve
-repository: https://github.com/lumunar/lumu_evolve
-issue_tracker: https://github.com/lumunar/lumu_evolve/issues
+homepage: https://github.com/lumunar/evolve
+repository: https://github.com/lumunar/evolve
+issue_tracker: https://github.com/lumunar/evolve/issues
 
 topics:
   - extensions

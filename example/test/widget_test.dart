@@ -7,7 +7,7 @@ void main() {
     await tester.pumpWidget(const App());
 
     // SliverAppBar keeps two copies of the title widget to animate between collapsed and expanded states.
-    expect(find.text('Lumu Evolve'), findsNWidgets(2));
+    expect(find.text('Evolve'), findsNWidgets(2));
     expect(find.text('Profile Management'), findsOneWidget);
   });
 }

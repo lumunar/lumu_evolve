@@ -1,12 +1,12 @@
-# Contributing to Lumu Evolve
+# Contributing to Evolve
 
-We welcome your contributions to this project. Please review these guidelines to understand how you can help us develop and improve Lumu Evolve.
+We welcome your contributions to this project. Please review these guidelines to understand how you can help us develop and improve Evolve.
 
 <br>
 
 ### Welcome to the Community
 
-Thank you for your interest in contributing to Lumu Evolve. We welcome contributions from everyone and appreciate your help in making this package better.
+Thank you for your interest in contributing to Evolve. We welcome contributions from everyone and appreciate your help in making this package better.
 
 Please review these guidelines to ensure a smooth contribution process.
 
