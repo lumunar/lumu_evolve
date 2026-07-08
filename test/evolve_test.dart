@@ -73,17 +73,23 @@ void main() {
         expect(name1.equals(name2), isFalse);
       });
 
-      test('should return false when receiver is non-null and other is null', () {
-        final String name1 = 'Lumunar';
-        final String? name2 = null;
-        expect(name1.equals(name2), isFalse);
-      });
+      test(
+        'should return false when receiver is non-null and other is null',
+        () {
+          final String name1 = 'Lumunar';
+          final String? name2 = null;
+          expect(name1.equals(name2), isFalse);
+        },
+      );
 
-      test('should return false when receiver is null and other is non-null', () {
-        final String? name1 = null;
-        final String name2 = 'Lumunar';
-        expect(name1.equals(name2), isFalse);
-      });
+      test(
+        'should return false when receiver is null and other is non-null',
+        () {
+          final String? name1 = null;
+          final String name2 = 'Lumunar';
+          expect(name1.equals(name2), isFalse);
+        },
+      );
 
       test('should return true when both are null', () {
         final String? name1 = null;
