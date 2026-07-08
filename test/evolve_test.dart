@@ -59,6 +59,44 @@ void main() {
         expect(name.or('Fallback'), equals('Fallback'));
       });
     });
+
+    group('equals', () {
+      test('should return true for equal non-null values', () {
+        final String name1 = 'Lumunar';
+        final String name2 = 'Lumunar';
+        expect(name1.equals(name2), isTrue);
+      });
+
+      test('should return false for unequal non-null values', () {
+        final String name1 = 'Lumunar';
+        final String name2 = 'Evolve';
+        expect(name1.equals(name2), isFalse);
+      });
+
+      test(
+        'should return false when receiver is non-null and other is null',
+        () {
+          final String name1 = 'Lumunar';
+          final String? name2 = null;
+          expect(name1.equals(name2), isFalse);
+        },
+      );
+
+      test(
+        'should return false when receiver is null and other is non-null',
+        () {
+          final String? name1 = null;
+          final String name2 = 'Lumunar';
+          expect(name1.equals(name2), isFalse);
+        },
+      );
+
+      test('should return true when both are null', () {
+        final String? name1 = null;
+        final String? name2 = null;
+        expect(name1.equals(name2), isTrue);
+      });
+    });
   });
 
   group('MagicBooleanExtension', () {
@@ -127,6 +165,23 @@ void main() {
           expect(otherwiseExecuted, isFalse);
         },
       );
+    });
+
+    group('select', () {
+      test('should return then value when true', () {
+        final bool flag = true;
+        expect(flag.select('yes', 'no'), equals('yes'));
+      });
+
+      test('should return otherwise value when false', () {
+        final bool flag = false;
+        expect(flag.select('yes', 'no'), equals('no'));
+      });
+
+      test('should return otherwise value when null', () {
+        final bool? flag = null;
+        expect(flag.select('yes', 'no'), equals('no'));
+      });
     });
   });
 }

@@ -154,7 +154,7 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   bool _isVip = false;
-  String? _customProfileName;
+  String? _name;
 
   @override
   Widget build(BuildContext context) {
@@ -175,9 +175,7 @@ class _ProfileState extends State<Profile> {
               icon: const Icon(Icons.refresh, size: 20),
               onPressed: () {
                 setState(() {
-                  _customProfileName = _customProfileName == null
-                      ? 'Sarah Jenkins'
-                      : null;
+                  _name = _name.equals(null).select('Sarah Jenkins', null);
                 });
               },
             ),
@@ -185,6 +183,13 @@ class _ProfileState extends State<Profile> {
         ),
         SizedBox(height: Space.small.fit(context)),
         Card(
+          color: (!_name.equals(null)).select(
+            _isVip.select(
+              colors.primaryContainer,
+              colors.surfaceContainerHighest,
+            ),
+            colors.surfaceContainerHigh,
+          ),
           child: Padding(
             padding: .all(Space.medium.fit(context)),
             child: Column(
@@ -194,24 +199,22 @@ class _ProfileState extends State<Profile> {
                   leading: CircleAvatar(
                     backgroundColor: colors.primary,
                     child: Icon(
-                      // Showcase 5: VIP icon conditional with .when
-                      _isVip.when(then: Icons.star, pass: Icons.person),
+                      // Showcase 5: VIP icon conditional with .select (positional)
+                      _isVip.select(Icons.star, Icons.person),
                       color: colors.onPrimary,
                     ),
                   ),
                   // Showcase 6: Safe nullable variable evaluation with .or
-                  title: Text(_customProfileName.or('Guest User')),
+                  title: Text(_name.or('Guest User')),
                   subtitle: Text(
-                    _isVip.when(
-                      then: 'Premium VIP Member',
-                      pass: 'Standard Account',
-                    ),
+                    // Showcase 7: Positional select replacement for ternary operator
+                    _isVip.select('Premium VIP Member', 'Standard Account'),
                     style: .new(
-                      color: _isVip.when(
-                        then: Colors.amber,
-                        pass: colors.onSurfaceVariant,
+                      color: _isVip.select(
+                        Colors.amber,
+                        colors.onSurfaceVariant,
                       ),
-                      fontWeight: _isVip.when(then: .bold, pass: .normal),
+                      fontWeight: _isVip.select(.bold, .normal),
                     ),
                   ),
                   trailing: Switch(
@@ -222,7 +225,7 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
                 Divider(height: Space.large.fit(context)),
-                // Showcase 7: Custom layout configuration using .pick
+                // Showcase 8: Custom layout configuration using .pick
                 _isVip.pick(
                   match: () => Container(
                     padding: .all(Space.small.fit(context)),

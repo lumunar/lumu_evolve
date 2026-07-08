@@ -10,4 +10,9 @@ extension MagicBooleanExtension on bool? {
   T pick<T>({required T Function() match, required T Function() otherwise}) {
     return (this ?? false) ? match() : otherwise();
   }
+
+  /// Positional conditional mapping: returns [then] if true, or [otherwise] if false or null.
+  T select<T>(T then, T otherwise) {
+    return (this ?? false) ? then : otherwise;
+  }
 }

@@ -17,4 +17,8 @@ extension MagicObjectExtension<T> on T? {
 
   /// Returns the receiver if it is not null, otherwise returns the [fallback] value.
   T or(T fallback) => this ?? fallback;
+
+  /// Returns true if this object is equal to [other].
+  /// Handles null receivers and null parameters safely.
+  bool equals(Object? other) => this == other;
 }

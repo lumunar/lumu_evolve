@@ -1,3 +1,11 @@
+## 1.3.0
+
+### Added
+- **Null-Safe Equality Extension (`equals`)**: Added the `equals` extension on nullable objects (`T?`) to perform fluent, completely null-safe equality checks as an alternative to raw `==` operators.
+- **Positional Boolean Selector (`select`)**: Added the `select` extension on nullable booleans (`bool?`) to support concise, positional ternary-style conditional mapping.
+- **Unit Tests**: Added comprehensive test cases verifying both extensions under all nullability permutations.
+- **Example Showcase**: Refactored the example app and documentation to demonstrate both extensions in practice.
+
 ## 1.2.1
 
 ### Fixed

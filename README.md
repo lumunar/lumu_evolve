@@ -158,7 +158,7 @@ Widget userProfileCard(User? user, BuildContext context) {
   final colors = ColorScheme.of(context);
 
   return Card(
-    color: user?.let((u) => (u.membership == Membership.vip).when(
+    color: user?.let((u) => u.membership.equals(Membership.vip).when(
       then: colors.primaryContainer,
       pass: colors.surfaceVariant,
     )).or(colors.surface),
