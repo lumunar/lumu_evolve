@@ -128,7 +128,7 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   bool _isVip = false;
-  String? _customProfileName;
+  String? _name;
 
   @override
   Widget build(BuildContext context) {
@@ -146,7 +146,7 @@ class _ProfileState extends State<Profile> {
               icon: const Icon(Icons.refresh, size: 20),
               onPressed: () {
                 setState(() {
-                  _customProfileName = _customProfileName.equals(null) ? 'Sarah Jenkins' : null;
+                  _name = _name.equals(null).select('Sarah Jenkins', null);
                 });
               },
             ),
@@ -154,6 +154,10 @@ class _ProfileState extends State<Profile> {
         ),
         SizedBox(height: Space.small.fit(context)),
         Card(
+          color: (!_name.equals(null)).select(
+            _isVip.select(colors.primaryContainer, colors.surfaceContainerHighest),
+            colors.surfaceContainerHigh,
+          ),
           child: Padding(
             padding: .all(Space.medium.fit(context)),
             child: Column(
@@ -169,7 +173,7 @@ class _ProfileState extends State<Profile> {
                     ),
                   ),
                   // Showcase 6: Safe nullable variable evaluation with .or
-                  title: Text(_customProfileName.or('Guest User')),
+                  title: Text(_name.or('Guest User')),
                   subtitle: Text(
                     // Showcase 7: Positional select replacement for ternary operator
                     _isVip.select('Premium VIP Member', 'Standard Account'),
