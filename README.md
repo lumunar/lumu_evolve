@@ -229,6 +229,34 @@ Widget dashboard(bool isLoading, bool isLandscape, Widget data) {
 
 <br>
 
+### String Capitalization
+
+**Before**: Capitalizing a specific letter in a string requires manual substring splitting, bounds checking, and concatenation:
+
+```dart
+String format(String message, int index) {
+  if (message.isEmpty || index < 0 || index >= message.length) {
+    return message;
+  }
+  return message.substring(0, index) + 
+         message[index].toUpperCase() + 
+         message.substring(index + 1);
+}
+```
+
+**After**: Use the fluent `capitalize` extension to capitalize any character by index safely:
+
+```dart
+String format(String message, int index) {
+  return message.capitalize(index);
+}
+
+// Or capitalize the first character by default:
+final name = "guest".capitalize(); // "Guest"
+```
+
+<br>
+
 ### License
 
 This project is licensed under the 3-Clause BSD License - see the [LICENSE](LICENSE) file for details.
