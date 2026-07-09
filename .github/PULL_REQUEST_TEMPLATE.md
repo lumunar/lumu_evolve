@@ -16,6 +16,19 @@ Please link any related issues here. E.g. Resolves #123
 
 <br>
 
+### Type of Change
+
+What type of change does this pull request introduce?
+
+* [ ] Bug Fix
+* [ ] New Feature
+* [ ] Refactoring
+* [ ] Documentation
+* [ ] Performance Improvement
+* [ ] Chore (dependency updates, configuration changes, etc.)
+
+<br>
+
 ### Risk Level
 
 What is the risk level of this pull request?
