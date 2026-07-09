@@ -1,3 +1,8 @@
+## 1.4.0
+
+### Added
+- **String Capitalization Extension (`capitalize`)**: Added the `capitalize` extension on `String` to support capitalizing any character in a string by index (defaulting to the first character, index 0) with out-of-bounds safety.
+
 ## 1.3.0
 
 ### Added

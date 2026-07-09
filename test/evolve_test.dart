@@ -184,4 +184,30 @@ void main() {
       });
     });
   });
+
+  group('MagicStringExtension', () {
+    group('capitalize', () {
+      test('should capitalize first character by default', () {
+        expect('hello'.capitalize(), equals('Hello'));
+        expect('world'.capitalize(), equals('World'));
+        expect('a'.capitalize(), equals('A'));
+      });
+
+      test('should capitalize character at specific index', () {
+        expect('hello'.capitalize(1), equals('hEllo'));
+        expect('hello'.capitalize(4), equals('hellO'));
+      });
+
+      test('should return empty string if receiver is empty', () {
+        expect(''.capitalize(), equals(''));
+        expect(''.capitalize(0), equals(''));
+        expect(''.capitalize(5), equals(''));
+      });
+
+      test('should throw RangeError if index is out of bounds', () {
+        expect(() => 'hello'.capitalize(-1), throwsRangeError);
+        expect(() => 'hello'.capitalize(5), throwsRangeError);
+      });
+    });
+  });
 }
